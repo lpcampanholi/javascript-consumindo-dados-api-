@@ -6,10 +6,10 @@ async function buscarEMostrarVideos() {
     const videos = await busca.json();
 
     videos.forEach((video) => {
-        if (video == "") {
-            throw new Error("Vídeo não tem categoria")
-        }
-        containerVideos.innerHTML += `
+      if (video == "") {
+        throw new Error("Vídeo não tem categoria");
+      }
+      containerVideos.innerHTML += `
                     <li class="videos__item">
                         <iframe src="${video.url}" title="${video.titulo}" frameborder="0" allowfullscreen></iframe>
                         <div class="descricao-video">
@@ -26,3 +26,20 @@ async function buscarEMostrarVideos() {
 }
 
 buscarEMostrarVideos();
+
+// BARRA DE PESQUISA
+
+const barraDePesquisa = document.querySelector(".pesquisar__input");
+
+barraDePesquisa.addEventListener("input", filtrarPesquisa);
+
+function filtrarPesquisa(){
+  const videos = document.querySelectorAll(".videos__item");
+  const valorFiltro = barraDePesquisa.value.toLowerCase();
+
+  videos.forEach((video) => {
+    const titulo = video.querySelector('.titulo-video').textContent.toLowerCase();
+
+    video.style.display = valorFiltro ? titulo.includes(valorFiltro) ? 'block' : 'none' : 'block';
+  });
+}
